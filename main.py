@@ -1,8 +1,10 @@
 from playwright.async_api import async_playwright
 from fastapi import FastAPI
 from pydantic import BaseModel
-import uvicorn
 from urllib.parse import urlparse
+import hashlib
+import redis.asyncio as redis
+
 
 
 class Request(BaseModel):
@@ -24,11 +26,26 @@ class Headless_Playwright():
         self.timeout = timeout
         self.wait_for = wait_for
         self.images_enabled = images_enabled
+        self.cache = redis.Redis(host='127.0.0.1', port='6379', db=0)
+
+
+    async def cache_lookup(self, request):
+        response_id = hashlib.md5(request.url.encode()).hexdigest()[:16]
+        lookup_result = await self.cache.get(response_id)
+        if lookup_result:
+            return {'response': lookup_result}
+        else:
+            return False
+
+
+    async def cache_dump(self, response):
+        response_id = hashlib.md5(self.url.encode()).hexdigest()[:16]
+        await self.cache.set(response_id, response, ex=86400)
 
 
     async def get_page(self):
         async with async_playwright() as p:
-            browser = await p.firefox.launch(headless=False)
+            browser = await p.firefox.launch(headless=True)
             context = await browser.new_context()
             page = await context.new_page()
             if not self.images_enabled:
@@ -40,6 +57,7 @@ class Headless_Playwright():
                 await page.wait_for_timeout(self.wait_for)
             content = await page.content()
             await context.close()
+            await self.cache_dump(content)
             return content
 
 
@@ -65,8 +83,12 @@ class Headless_Playwright():
 
 app = FastAPI()
 
-@app.post("/play/")
+@app.post("/")
 async def root(request: Request):
     headless_play = await Headless_Playwright.from_request(request)
-    response = await headless_play.start_playing()
+    response = await headless_play.cache_lookup(request)
+    if response is False:
+        response = await headless_play.start_playing()
     return response
+
+
