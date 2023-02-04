@@ -51,7 +51,7 @@ class Headless_Playwright():
         
 
     @classmethod
-    async def from_api(cls, request):
+    async def from_request(cls, request):
         url = request.url
         wait_until = request.wait_until
         timeout = request.timeout
@@ -63,7 +63,7 @@ app = FastAPI()
 
 @app.post("/play/")
 async def root(request: Request):
-    headless_play = await Headless_Playwright.from_api(request)
+    headless_play = await Headless_Playwright.from_request(request)
     response = await headless_play.start_playing()
     return response
 
