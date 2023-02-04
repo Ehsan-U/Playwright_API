@@ -65,7 +65,7 @@ class Headless_Playwright():
 
 app = FastAPI()
 
-@app.post("/play/")
+@app.post("/")
 async def root(request: Request):
     headless_play = await Headless_Playwright.from_request(request)
     response = await headless_play.start_playing()
