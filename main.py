@@ -70,12 +70,3 @@ async def root(request: Request):
     headless_play = await Headless_Playwright.from_request(request)
     response = await headless_play.start_playing()
     return response
-
-
-if __name__ == "__main__":
-    uvicorn.run(
-        "main:app",
-        host="127.0.0.1",
-        reload=False,
-        port=8000
-    )
