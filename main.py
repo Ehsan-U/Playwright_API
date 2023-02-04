@@ -1,8 +1,8 @@
 from playwright.async_api import async_playwright
 from fastapi import FastAPI
 from pydantic import BaseModel
-import traceback
 import uvicorn
+from urllib.parse import urlparse
 
 
 class Request(BaseModel):
@@ -11,25 +11,28 @@ class Request(BaseModel):
     wait_until: str | None = None
     timeout: int | None = 30
     wait_for: int | None = None
-
+    images_enabled: bool | None = True
 
 
 class Headless_Playwright():
     """ playwright via api """
 
 
-    def __init__(self, url, wait_until, timeout, wait_for):
+    def __init__(self, url, wait_until, timeout, wait_for, images_enabled):
         self.url = url
         self.wait_until = wait_until
         self.timeout = timeout
         self.wait_for = wait_for
+        self.images_enabled = images_enabled
 
 
     async def get_page(self):
         async with async_playwright() as p:
-            browser = await p.firefox.launch(headless=True)
+            browser = await p.firefox.launch(headless=False)
             context = await browser.new_context()
             page = await context.new_page()
+            if not self.images_enabled:
+                await page.route(f'**{urlparse(self.url).netloc}/*', lambda route: route.abort() if route.request.resource_type == 'image' else route.continue_())
             await page.goto(self.url)
             if self.wait_until:
                 await page.wait_for_selector(self.wait_until, timeout=self.timeout)
@@ -56,7 +59,8 @@ class Headless_Playwright():
         wait_until = request.wait_until
         timeout = request.timeout
         wait_for = request.wait_for
-        return cls(url, wait_until, timeout, wait_for)
+        images_enabled = request.images_enabled
+        return cls(url, wait_until, timeout, wait_for, images_enabled)
 
 
 app = FastAPI()
