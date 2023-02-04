@@ -12,6 +12,7 @@ This repository contains a high-performance, high-concurrency FastAPI endpoint f
 - Python 3.7 or higher
 - Playwright-Python library
 - FastAPI and its dependencies
+- Redis
 
 ## Getting Started
 1. Clone the repository:
