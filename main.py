@@ -28,7 +28,7 @@ class Headless_Playwright():
 
     async def get_page(self):
         async with async_playwright() as p:
-            browser = await p.firefox.launch(headless=False)
+            browser = await p.firefox.launch(headless=True)
             context = await browser.new_context()
             page = await context.new_page()
             if not self.images_enabled:
