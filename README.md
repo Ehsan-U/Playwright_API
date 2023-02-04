@@ -6,7 +6,6 @@ This repository contains a high-performance, high-concurrency FastAPI endpoint f
 - Built with FastAPI, a modern, fast, web framework for building APIs with Python
 - Optimized for high performance and high concurrency using asynchronous programming
 - Easy to extend and customize to meet specific requirements
-- Well-documented and high-quality codebase
 
 ## Prerequisites
 - Python 3.7 or higher
