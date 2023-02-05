@@ -35,7 +35,7 @@ payload = {
     # wait playwright explicitly
     "wait_for": 10  
     # get recent version of the website
-    "update_cache": True   
++   "update_cache": True   
 }
 
 # Send the request
