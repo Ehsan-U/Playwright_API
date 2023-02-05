@@ -7,6 +7,7 @@ This repository contains a high-performance, high-concurrency FastAPI endpoint f
 - Optimized for high performance and high concurrency using asynchronous programming
 - Easy to extend and customize to meet specific requirements
 - Redis cache supported
+- Ready to deploy in cloud
 
 ## Prerequisites
 - Python 3.7 or higher
