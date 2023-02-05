@@ -21,6 +21,31 @@ This repository contains a high-performance, high-concurrency FastAPI endpoint f
 4. Run the FastAPI endpoint:
 5. Test the endpoint using your preferred method, such as Postman or cURL.
 
+## Usage 
+```
+import requests
+
+# Make a POST request to the endpoint with the Request payload
+url = "http://localhost:8000/"
+payload = {
+    "url": "https://www.example.com",
+    "wait_until": "body",
+    "timeout": 20
+}
+
+# Send the request
+response = requests.post(url, json=payload)
+
+# Check the response status code to see if the request was successful
+if response.status_code == 200:
+    # Access the response data
+    data = response.json()
+    print(data)
+else:
+    # If the request was not successful, print an error message
+    print("An error occurred while sending the request")
+
+```
 
 ## Contributions
 Contributions are welcome! If you have an idea for a new feature or find a bug, please open an issue or submit a pull request.
