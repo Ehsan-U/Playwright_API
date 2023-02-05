@@ -9,30 +9,35 @@ import redis.asyncio as redis
 
 class Request(BaseModel):
     url: str
-    # str | None mean expected values, last None indicate default value 
     wait_until: str | None = None
     timeout: int | None = 30
     wait_for: int | None = None
     images_enabled: bool | None = True
+    update_cache: bool | None = False
+
 
 
 class Headless_Playwright():
     """ playwright via api """
 
 
-    def __init__(self, url, wait_until, timeout, wait_for, images_enabled):
+    def __init__(self, url, wait_until, timeout, wait_for, images_enabled, update_cache):
         self.url = url
         self.wait_until = wait_until
         self.timeout = timeout
         self.wait_for = wait_for
         self.images_enabled = images_enabled
+        self.update_cache = update_cache
         self.cache = redis.Redis(host='127.0.0.1', port='6379', db=0)
 
 
     async def cache_lookup(self, request):
         response_id = hashlib.md5(request.url.encode()).hexdigest()[:16]
         lookup_result = await self.cache.get(response_id)
-        if lookup_result:
+        if self.update_cache is True:
+            await self.cache.delete(response_id)
+            return False
+        elif lookup_result:
             return {'response': lookup_result}
         else:
             return False
@@ -78,7 +83,8 @@ class Headless_Playwright():
         timeout = request.timeout
         wait_for = request.wait_for
         images_enabled = request.images_enabled
-        return cls(url, wait_until, timeout, wait_for, images_enabled)
+        update_cache = request.update_cache
+        return cls(url, wait_until, timeout, wait_for, images_enabled, update_cache)
 
 
 app = FastAPI()
