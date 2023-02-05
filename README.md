@@ -41,14 +41,9 @@ payload = {
 # Send the request
 response = requests.post(url, json=payload)
 
-# Check the response status code to see if the request was successful
-if response.status_code == 200:
-    # Access the response data
-    data = response.json()
-    print(data)
-else:
-    # If the request was not successful, print an error message
-    print("An error occurred while sending the request")
+# Access the response data
+data = response.json()
+print(data)
 
 ```
 
