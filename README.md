@@ -22,7 +22,7 @@ This repository contains a high-performance, high-concurrency FastAPI endpoint f
 5. Test the endpoint using your preferred method, such as Postman or cURL.
 
 ## Usage 
-```
+```python
 import requests
 
 # Make a POST request to the endpoint with the Request payload
@@ -35,7 +35,7 @@ payload = {
     # wait playwright explicitly
     "wait_for": 10  
     # get recent version of the website
-+   "update_cache": True   
+    "update_cache": True   
 }
 
 # Send the request
