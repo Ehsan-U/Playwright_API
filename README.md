@@ -54,7 +54,7 @@ payload = {
     "timeout": 1000,
     # explicit wait after page loaded (milliseconds)
     "wait_for": 5000,
-    # disable_images loading
+    # block images loading
     "images_enabled": False
 }
 
