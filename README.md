@@ -7,6 +7,7 @@ This repository contains a high-performance, high-concurrency FastAPI endpoint f
 - Optimized for high performance and high concurrency using asynchronous programming
 - Easy to extend and customize to meet specific requirements
 - Redis cache supported
+- Ready to deploy in cloud
 
 ## Prerequisites
 - Python 3.7 or higher
@@ -21,6 +22,24 @@ This repository contains a high-performance, high-concurrency FastAPI endpoint f
 4. Run the FastAPI endpoint:
 5. Test the endpoint using your preferred method, such as Postman or cURL.
 
+## Usage 
+```python
+import requests
+
+# Make a POST request to the endpoint with the Request payload
+url = "http://localhost:8000/"
+payload = {
+    "url": "https://www.example.com",
+}
+
+# Send the request
+response = requests.post(url, json=payload)
+
+# Access the response data
+data = response.json()
+print(data)
+
+```
 
 ## Contributions
 Contributions are welcome! If you have an idea for a new feature or find a bug, please open an issue or submit a pull request.
