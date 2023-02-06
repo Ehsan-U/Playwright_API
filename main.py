@@ -5,10 +5,11 @@ from pydantic import BaseModel
 from urllib.parse import urlparse
 import hashlib
 import redis.asyncio as redis
-
+from authMiddleware import verify
 
 
 class Request(BaseModel):
+    user: str
     url: str
     wait_until: str | None = None
     timeout: int | None = 30
@@ -93,9 +94,12 @@ app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 @app.post("/")
 async def root(request: Request):
-    headless_play = await Headless_Playwright.from_request(request)
-    response = await headless_play.cache_lookup(request)
-    if response is False:
-        response = await headless_play.start_playing()
+    if verify(request.user):
+        headless_play = await Headless_Playwright.from_request(request)
+        response = await headless_play.cache_lookup(request)
+        if response is False:
+            response = await headless_play.start_playing()
+    else:
+        response = {"error":"Invalid credentials"}
     return response
 
