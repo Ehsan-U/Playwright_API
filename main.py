@@ -1,5 +1,6 @@
 from playwright.async_api import async_playwright
 from fastapi import FastAPI
+from fastapi.middleware.gzip import GZipMiddleware
 from pydantic import BaseModel
 from urllib.parse import urlparse
 import hashlib
@@ -88,6 +89,7 @@ class Headless_Playwright():
 
 
 app = FastAPI()
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 @app.post("/")
 async def root(request: Request):
@@ -96,5 +98,4 @@ async def root(request: Request):
     if response is False:
         response = await headless_play.start_playing()
     return response
-
 
