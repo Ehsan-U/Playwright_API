@@ -10,7 +10,7 @@ import redis.asyncio as redis
 class Request(BaseModel):
     url: str
     wait_until: str | None = None
-    timeout: int | None = 30
+    timeout: int | None = 30000
     wait_for: int | None = None
     images_enabled: bool | None = True
     update_cache: bool | None = False
