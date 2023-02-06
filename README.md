@@ -30,13 +30,6 @@ import requests
 url = "http://localhost:8000/"
 payload = {
     "url": "https://www.example.com",
-    "wait_until": "xpath_css_selector",
-    # element timeout
-    "timeout": 20   
-    # wait playwright explicitly
-    "wait_for": 10  
-    # get recent version of the website
-    "update_cache": True   
 }
 
 # Send the request
