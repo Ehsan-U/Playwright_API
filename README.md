@@ -19,8 +19,19 @@ This repository contains a high-performance, high-concurrency FastAPI endpoint f
 1. Clone the repository:
 2. Navigate to the project directory:
 3. Install the required dependencies:
-4. Run the FastAPI endpoint:
-5. Test the endpoint using your preferred method, such as Postman or cURL.
+4. Setup redis
+```
+" Use WSL ubuntu on windows "
+curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
+
+sudo apt-get update
+sudo apt-get install redis
+sudo service redis-server restart
+```
+5. ``` uvicorn main:app ``` this will start the endpoint
+6. Now you can use that endpoint via 127.0.0.1:8000
 
 ## Usage 
 ```python
