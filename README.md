@@ -31,7 +31,7 @@ sudo apt-get install redis
 sudo service redis-server restart
 ```
 5. ``` uvicorn main:app ``` this will start the endpoint
-6. Now you can use that endpoint via 127.0.0.1:8000
+6. Now you can use that endpoint via http://127.0.0.1:8000
 
 ## Usage 
 ```python
