@@ -18,7 +18,7 @@ This repository contains a high-performance, high-concurrency FastAPI endpoint f
 ## Getting Started
 1. Clone the repository:
 2. Navigate to the project directory:
-3. Install the required dependencies:
+3. ``` pip install -r requirements.txt ```
 4. Setup redis
 ```
 " Use WSL ubuntu on windows "
